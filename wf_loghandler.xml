@@ -1,0 +1,32 @@
+<workflow owner="ehopyr1" description="" name="Workflow Properties" creator="ehopyr1">
+  <variables>
+    <variable key="IW-ModelName" value="LogHandle"/>
+    <variable key="due_date" value=""/>
+    <variable key="IW-ModelDispName" value="Delete old Logs"/>
+    <variable key="priority" value="2"/>
+    <variable key="IW-ProcessModel" value="true"/>
+  </variables>
+  <externaltask name="Log Handler" owner="root" transferonly="f" lock="f" readonly="f" retry="t" start="t">
+    <areavpath v="/iwadmin/main/deere/syndication/WORKAREA/shared"/>
+    <successors>
+      <successorset description="Flow5">
+        <description>Flow5</description>
+        <succ v="End4"/>
+      </successorset>
+    </successors>
+    <command v="http://dce-ts16-q.tal.deere.com/iw-cc/urlexternaltask"/>
+    <files>
+      <file path="templatedata/LogRotation/teamsite/data/logconfig.xml" comment=""/>
+    </files>
+    <variables>
+      <variable key="ClassName" value="com.deere.livesite.maintainence.TeamsiteLogs"/>
+    </variables>
+  </externaltask>
+  <endtask name="End4">
+    <activation>
+      <or>
+        <pred v="Log Handler"/>
+      </or>
+    </activation>
+  </endtask>
+</workflow>
